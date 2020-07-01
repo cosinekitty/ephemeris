@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+#   Don Cross - 2020-07-01
+#   Script for building Fortran test program and running it.
+#
+Fail()
+{
+    echo "FATAL($0): $1"
+    exit 1
+}
+
+rm -f TOP2013.out
+f77 -o top2013 TOP2013.f || Fail "Cannot build Fortran program."
+./top2013 || Fail "Error running Fortran program."
+diff -w TOP2013.ctl TOP2013.out || Fail "Incorrect output."
+echo "PASS"
+exit 0
